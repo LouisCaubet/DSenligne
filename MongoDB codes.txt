@@ -1,0 +1,7 @@
+MongoDB credentials
+
+admin
+CIb2xxSDNI8iIrmR
+
+mongodb+srv://admin:CIb2xxSDNI8iIrmR@cluster0.xzps9.mongodb.net/<dbname>?retryWrites=true&w=majority
+mongodb+srv://admin:CIb2xxSDNI8iIrmR@cluster0.xzps9.mongodb.net/test

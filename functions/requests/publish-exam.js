@@ -43,7 +43,7 @@ async function publishExam(req, res){
 
     for(let uid of exam.targetUsers){
         const u = await User.findById(uid);
-        u.examsTodo.push(id);
+        if(!u.examsTodo.includes(id)) u.examsTodo.push(id);
         u.save();
     }
 
@@ -51,10 +51,12 @@ async function publishExam(req, res){
         const g = await Group.findById(gid);
         for(let uid of g.users){
             const u = await User.findById(uid);
-            u.examsTodo.push(id);
+            if(!u.examsTodo.includes(id)) u.examsTodo.push(id);
             u.save();
         }
     }
+
+    res.status(200).send("Exam published!")
 
 
 }

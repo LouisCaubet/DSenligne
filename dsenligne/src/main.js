@@ -3,10 +3,18 @@ import { Navbar, Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './components/dashboard';
 import Exam from './components/exam'
+import Login from './components/login'
 import {StaticMathField} from 'react-mathquill'
 import tblvariation from './components/tblvariation.jpg'
+import { BrowserRouter as Router, Redirect, Switch, Route } from 'react-router-dom';
+
 
 export default class Main extends React.Component {
+
+    constructor(){
+        super();
+    }
+
 
     render(){
 
@@ -23,30 +31,65 @@ export default class Main extends React.Component {
             }]}
         />
 
-        return  <div>
+        return  <Router>
 
-                    <AppNavBar />
-                    {pageContent}
+                    <Redirect to={window.sessionStorage.getItem('username') == "" ? "/login": "/dashboard"} />
+
+                    <Switch>
+                        <Route path="/login">
+                            <AppNavBar />
+                            <Login />
+                        </Route>
+                        <Route path="/dashboard">
+                            <AppNavBar />
+                            <Dashboard />
+                        </Route>
+                        <Route path="/logout">
+                            <Logout />
+                        </Route>
+                        <Route path="/exam/:id">
+                            <AppNavBar />
+                            <Exam />
+                        </Route>
+                    </Switch>
         
-                </div>
+                </Router>
 
     }
 
 }
 
+function Logout(props){
+    window.sessionStorage.setItem('username', "")
+    window.sessionStorage.setItem('firstname', "")
+    window.sessionStorage.setItem('lastname', "")
+    window.sessionStorage.setItem('interface', "")
+    return <Redirect to="/login" />
+}
+
 function AppNavBar(props){
+
+    let storage = window.sessionStorage
+
+    let connected = storage.getItem('firstname') != "";
+    let name = storage.getItem('firstname') + " " + storage.getItem('lastname')
+
+    let loggedInJSX = <span>Connecté en tant que: <a href="/account">{name}</a></span>
+    let logInJSX = <a href="/login">Se connecter</a>
+
+    let dashboardJSX =  <Nav className="mr-auto">
+                            <Nav.Link href="/dashboard">Tableau de bord</Nav.Link>
+                        </Nav>
 
     return  <Navbar bg="dark" variant="dark">
 
-                <Navbar.Brand href="#home">DS en ligne</Navbar.Brand> 
+                <Navbar.Brand href="/">DS en ligne</Navbar.Brand> 
 
-                <Nav className="mr-auto">
-                    <Nav.Link href="#home">Tableau de bord</Nav.Link>
-                </Nav>
+                {connected && storage.getItem('interface') == "student" && dashboardJSX}
 
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>
-                        Connecté en tant que: <a href="#login">Louis Caubet</a>
+                        {connected ? loggedInJSX : logInJSX}
                     </Navbar.Text>
                 </Navbar.Collapse>
 

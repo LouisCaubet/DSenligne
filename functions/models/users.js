@@ -33,6 +33,10 @@ const UserSchema  = new mongoose.Schema({
         type: Array,
         default: []
     },
+    ongoingExam: {
+        type: mongoose.Types.ObjectId,
+        default: null
+    }
 });
   
 const User= mongoose.model("User", UserSchema, "users");

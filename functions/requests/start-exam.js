@@ -56,6 +56,9 @@ async function startExam(req, res){
   exam.targetGroups = null;
   exam.targetUsers = null;
 
+  user.ongoingExam = mongoose.Types.ObjectId(id);
+  user.save();
+
   console.log("User " + user.name + " started the exam " + exam.title + " on " + date.toString());
   res.status(200).send(exam);
   

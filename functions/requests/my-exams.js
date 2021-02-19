@@ -1,14 +1,16 @@
 // const mongoose = require("mongoose");
 
 const Exam = require("./../models/exam");
-const User = require("./../models/users");
 
 async function myExams(req, res){
 
   // Get user from req with passport
-  const user = await User.findOne({name: "testing"});
-  console.log(user.name);
-  console.log(user.examsTodo);
+  const user = req.user
+
+  if(!user){
+    res.status(401).send("Log in to continue")
+    return
+  }
 
   let exams = [];
 

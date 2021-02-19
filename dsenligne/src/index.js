@@ -7,6 +7,7 @@ import {Helmet} from 'react-helmet'
 
 addStyles();
 
+export const API_PATH = "/api";
 
 ReactDOM.render(
   <React.StrictMode>

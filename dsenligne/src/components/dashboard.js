@@ -43,7 +43,7 @@ export default class Dashboard extends React.Component {
 
                     {this.state.redirect == "login" && redirectToLogin}
 
-                    <Container fluid>
+                    <Container fluid style={{marginTop: this.props.marginTop}}>
                         <Row>
                             <Col className="m-5">
                                 <h1 style={{marginBottom:"0.5em"}}>À faire <Badge variant="danger">{jumbos.length}</Badge></h1>
@@ -59,6 +59,10 @@ export default class Dashboard extends React.Component {
                 </div>
     }
 
+}
+
+Dashboard.propTypes = {
+    marginTop: PropTypes.number
 }
 
 function TodoJumbo(props){

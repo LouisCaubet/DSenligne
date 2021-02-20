@@ -7,12 +7,42 @@ import Login from './components/login'
 import {StaticMathField} from 'react-mathquill'
 import tblvariation from './components/tblvariation.jpg'
 import { BrowserRouter as Router, Redirect, Switch, Route } from 'react-router-dom';
+import Axios from 'axios'
+
+import {API_PATH} from './index'
 
 
 export default class Main extends React.Component {
 
     constructor(){
         super();
+
+        this.state = {navbarHeight: 0, redirect: null}
+
+        // Query ongoing exam
+        Axios.get(API_PATH + "/ongoing-exam").then((res) => {
+
+            if(res.data != ""){
+                console.log("Found ongoing exam");
+
+                this.setState({
+                    redirect: <Redirect to={"/exam/" + res.data.exam._id} />
+                });
+
+            }
+
+        }).catch((error) => {
+            if(error.response && error.response.status == 401){
+                this.setState({redirect: <Redirect to="/logout" />});
+            }
+        });
+
+        
+    }
+
+    componentDidMount(){
+        let height = document.getElementById('navbar').clientHeight;
+        this.setState({navbarHeight: height})
     }
 
 
@@ -33,6 +63,7 @@ export default class Main extends React.Component {
 
         return  <Router>
 
+                    {this.state.redirect}
                     <Redirect to={window.sessionStorage.getItem('username') == "" ? "/login": "/dashboard"} />
 
                     <Switch>
@@ -42,14 +73,14 @@ export default class Main extends React.Component {
                         </Route>
                         <Route path="/dashboard">
                             <AppNavBar />
-                            <Dashboard />
+                            <Dashboard marginTop={this.state.navbarHeight} />
                         </Route>
                         <Route path="/logout">
                             <Logout />
                         </Route>
                         <Route path="/exam/:id">
                             <AppNavBar />
-                            <Exam />
+                            <Exam marginTop={this.state.navbarHeight} />
                         </Route>
                     </Switch>
         
@@ -81,7 +112,7 @@ function AppNavBar(props){
                             <Nav.Link href="/dashboard">Tableau de bord</Nav.Link>
                         </Nav>
 
-    return  <Navbar bg="dark" variant="dark">
+    return  <Navbar bg="dark" variant="dark" fixed="top" id="navbar">
 
                 <Navbar.Brand href="/">DS en ligne</Navbar.Brand> 
 

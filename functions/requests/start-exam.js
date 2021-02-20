@@ -47,7 +47,7 @@ async function startExam(req, res){
     examId: id,
     userId: uid,
     dateStarted: date,
-    expiresAt: new Date(date + (exam.duration + 30) * 1000)
+    expiresAt: new Date(date).setSeconds(date.getSeconds() + exam.duration)
   });
 
   await filled.save();
@@ -59,7 +59,7 @@ async function startExam(req, res){
   user.ongoingExam = mongoose.Types.ObjectId(id);
   user.save();
 
-  console.log("User " + user.name + " started the exam " + exam.title + " on " + date.toString());
+  console.log("User " + user.username + " started the exam " + exam.title + " on " + date.toString());
   res.status(200).send(exam);
   
 

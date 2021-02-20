@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import {Button, NavbarBrand} from 'react-bootstrap'
+import {Button, NavbarBrand, Container} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class Timer extends React.Component {
@@ -29,10 +29,11 @@ export default class Timer extends React.Component {
                 return {s: state.s - 1}
             }
             else if(state.min != 0){
+                this.props.minuteCallback();
                 return {min: state.min - 1, s: 59}
             }
             else {
-                // callback
+                this.props.finalCallback();
                 clearInterval(this.timerID);
             }
         })
@@ -50,8 +51,11 @@ export default class Timer extends React.Component {
 
     render(){
 
-        return  <div>
-                    <Button variant={this.state.min > 0 ? "success" : "warning"} block disabled={true}>{this.intToText(this.state.min)}:{this.intToText(this.state.s)}</Button>
+        return  <div style={{width:"23%"}}>
+                    <Button variant={this.state.min > 0 ? "success" : "warning"} block disabled={true}
+                            style={{position: "fixed", width: "inherit"}} >
+                        {this.intToText(this.state.min)}:{this.intToText(this.state.s)}
+                    </Button>
                 </div>
 
     }

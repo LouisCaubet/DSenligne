@@ -28,6 +28,8 @@ export default class Question extends React.Component {
             let array = state.answers;
             array[id] = value;
             return {answers: array};
+        }, () => {
+            this.props.updateAnswer(this.state.answers);
         });
     }
 
@@ -36,21 +38,25 @@ export default class Question extends React.Component {
         let blocks = [];
         let i = 0;
 
+        console.log(this.props.initialState ? "InitialState ok" : "InitialState is Null");
+
         for(let block of this.props.blocks){
             
             if(block.type === "qcm"){
-                blocks.push(<QCMBlock values = {block.props.values} updateAnswer =  {this.updateAnswer.bind(this, i)}/>);
+                blocks.push(<QCMBlock key={i} values = {block.props.values} updateAnswer =  {this.updateAnswer.bind(this, i)} 
+                    initialState={this.props.initialState ? this.props.initialState[i] : null} />);
             }
             else if(block.type === "math"){
-                blocks.push(<EditableMathBlock height={block.props.height} latex={block.props.latex}
-                    updateAnswer = {this.updateAnswer.bind(this, i)} />);
+                blocks.push(<EditableMathBlock key={i} height={block.props.height} updateAnswer = {this.updateAnswer.bind(this, i)} 
+                    latex = {this.props.initialState ? this.props.initialState[i] : ""} />);
             }
             else if(block.type === "canvas"){
-                blocks.push(<CanvasBlock imageInfo={block.props.imageInfo}
-                    updateAnswer = {this.updateAnswer.bind(this, i)} />);
+                blocks.push(<CanvasBlock key={i} imageInfo={block.props.imageInfo}
+                    updateAnswer = {this.updateAnswer.bind(this, i)}
+                    initialState = {this.props.initialState ? this.props.initialState[i] : null} />);
             }
             else if(block.type === "text"){
-                blocks.push(<p style={{marginBottom: "1em"}}>{parseLatex(block.props.content)}</p>)
+                blocks.push(<p key={i} style={{marginBottom: "1em"}}>{parseLatex(block.props.content)}</p>)
             }
 
             i++;

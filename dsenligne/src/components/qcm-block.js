@@ -10,25 +10,32 @@ export default class QCMBlock extends React.Component {
     constructor(props){
         super(props);
 
-        let falses = []
+        if(props.initialState){
+            this.state = {checked: props.initialState}
+        }
+        else {
+            let falses = []
 
-        for(let i in this.props.values){
-            falses.push(false);
+            for(let i in this.props.values){
+                falses.push(false);
+            }
+
+            this.state = {checked: falses};
         }
 
-        this.state = {checked: falses};
+        
 
     }
 
-    updateChecked(id){
+    updateChecked(id, event){
 
-        this.setState(function(state){
-            let checked = state.checked;
-            checked[id] = !checked[id];
-            return {checked: checked};
+        let checkedCp = [...this.state.checked];
+        checkedCp[id] = !checkedCp[id];
+
+        this.setState({checked: checkedCp}, () => {
+            console.log(checkedCp);
+            this.props.updateAnswer(this.state.checked);
         });
-
-        this.props.updateAnswer(this.state.checked);
 
     }
 
@@ -37,7 +44,8 @@ export default class QCMBlock extends React.Component {
         let checks = []
 
         for(let i in this.props.values){
-            checks.push(<Form.Check type='checkbox' id={i} label={parseLatex(this.props.values[i])} onClick={this.updateChecked.bind(this, i)}/>)
+            checks.push(<Form.Check type='checkbox' key={i} id={i} label={parseLatex(this.props.values[i])} 
+                checked={this.state.checked[i]} onChange={this.updateChecked.bind(this, i)} />)
         }
 
         return  <Form style={{marginBottom: "1em"}}>

@@ -19,11 +19,15 @@ export default class CanvasBlock extends React.Component {
     }
 
     updateData(data){
-        this.setState({data: data});
+        // this.setState({data: data});
     }
 
     updateAnswer(){
-        this.props.updateAnswer(this.state.data);
+        console.log("update answer for canvasblock")
+        setTimeout(() => {
+            console.log(this.canva.state)
+            this.props.updateAnswer(this.canva.state.data);
+        }, 1000);
     }
 
     render(){
@@ -46,6 +50,7 @@ export default class CanvasBlock extends React.Component {
                                 tool={state.tool}
                                 onDataUpdate = {this.updateData.bind(this)}
                                 onFinishDraw={this.updateAnswer.bind(this)}
+                                initialData={this.props.initialState}
                             />
 
                         }>

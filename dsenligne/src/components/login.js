@@ -75,14 +75,15 @@ export default class Login extends React.Component {
 
         const redirect = <Redirect to="/dashboard" />
 
-        return  <Container fluid>
+        return  <Container fluid style={{overflow:"hidden"}}>
 
                     {this.state.redirect && redirect}
 
                     <div style={{
                         position: 'absolute', left: '50%', top: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: "100%"
+                        width: "100%",
+                        overflow:"hidden"
                     }}>
 
                         <Row>

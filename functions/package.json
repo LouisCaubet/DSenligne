@@ -21,6 +21,7 @@
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
     "momentjs": "^2.0.0",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.12",
     "passport": "^0.4.1",

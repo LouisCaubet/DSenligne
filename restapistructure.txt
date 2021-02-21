@@ -1,0 +1,46 @@
+
+ADMIN PART
+
+EXAM
+    GETLIST: GET /api/exam?sort=[.., ..]&range=[.., ..]&filter={...}
+    GETONE:  GET /api/exam/:id
+    GETMANY: GET /api/exam?ids=[...]
+
+    CREATE:  POST /api/exam
+    UPDATE:  PUT /api/exam/:id
+    UPDATEMANY : PUT /api/exam?ids=[...]
+    DELETE : DELETE /api/exam/:id
+    DELETEMANY: DELETE /api/exam?ids=[...]
+
+FILLEDEXAM:
+    GETLIST: GET /api/paper?sort=[..,. .]&range=[.., ..]&filter={...}
+    GETONE:  GET /api/paper/:id
+    GETMANY: GET /api/paper?ids[...]
+
+    CREATE: non-rest (StartExam)
+    UPDATE: non-rest (SendAnswers)
+    UPDATEMANY: /
+    DELETE: /
+    DELETEMANY: /
+
+USER:
+    GETLIST: GET /api/user?sort[.., ..]&range=[.., ..]&filter={...}
+    GETONE:  GET /api/user/:id
+    GETMANY: GET /api/user?ids=[...]
+
+    CREATE: non-rest (Register)
+    UPDATE: PUT /api/user/:id  (limited: can only update groups)
+    UPDATEMANY: PUT /api/user?ids=[...]
+    DELETE: /
+    DELETEMANY: /
+
+GROUPS:
+    GETLIST: GET /api/group?sort[.., ..]&range=[.., ..]&filter={...}
+    GETONE:  GET /api/group/:id
+    GETMANY: GET /api/group?ids=[...]
+
+    CREATE:  POST /api/group 
+    UPDATE:  PUT /api/group/:id
+    UPDATEMANY: PUT /api/group?ids=[...]
+    DELETE:  DELETE /api/group/:id
+    DELETEMANY: DELETE /api/group/ids=[...]

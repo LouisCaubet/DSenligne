@@ -55,26 +55,39 @@ app.post("/api/register", require("./requests/register"));
 
 /// ADMIN API
 
-// Creates a new Exam in the DB.
-app.post("/api/create-exam", require("./requests/create-exam"));
+// GETLIST EXAM / GETMANY EXAM
+app.get("/api/exam", require("./exam/getlist"));
 
-// Edit an existing unpublished exam
-app.post("/api/edit-exam", require("./requests/edit-exam"));
+// GETONE EXAM
+app.get("/api/exam/:id", require("./exam/getone"));
+
+// CREATE EXAM
+app.post("/api/exam", require("./exam/create"));
+
+// UPDATE EXAM
+app.put("/api/exam/:id", require("./exam/update"));
+
+// UPDATEMANY EXAM
+app.put("/api/exam", require("./exam/updatemany"));
+
+// DELETE EXAM
+app.delete("/api/exam/:id", require("./exam/delete"));
+
+// DELETEMANY EXAM
+app.delete("/api/exam", require("./exam/deletemany"));
 
 // Publish the exam
 app.post("/api/publish-exam", require("./requests/publish-exam"));
 
-// Get unpublished exams
-app.get("/api/get-draft-exams", require("./requests/get-draft-exams"));
 
-// Get published exams
-app.get("/api/get-published-exams", require("./requests/get-published-exams"));
 
-// Get one specific exam by id
-app.get("/api/get-exam", require("./requests/get-exam"));
+// GETLIST FILLEDEXAM / GETMANY FILLEDEXAM
+app.get("/api/filledexam", require("./filledexam/getlist"));
 
-// Get filled exams to correct
-app.get("/api/tocorrect", require("./requests/get-tocorrect"));
+// GETONE FILLEDEXAM
+app.get("/api/filledexam/:id", require("./filledexam/getone"));
+
+
 
 // Create a new empty group
 app.post("/api/create-group", require("./requests/create-group"));

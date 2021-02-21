@@ -1,6 +1,8 @@
-const Exam = require("./../models/exam");
+const Exam = require("../models/exam");
 
-async function getExams(req, res){
+const mongoose = require("mongoose");
+
+async function getExam(req, res){
 
     const user = req.user;
 
@@ -14,16 +16,17 @@ async function getExams(req, res){
         return;
     }
 
-    const id = req.query.id;
+    const id = req.params.id;
 
-    const exam = await Exam.findById(id);
+    const exam = await Exam.findById(mongoose.Types.ObjectId(id));
 
     if(!exam || (exam.owner != user._id && !user.isadmin)){
-        res.status(403).send("This exam does not exist.");
+        res.status(400).send("This exam does not exist.");
+        return;
     }
 
     res.status(200).send(exam);
 
 }
 
-module.exports = getExams;
+module.exports = getExam;

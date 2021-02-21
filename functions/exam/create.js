@@ -1,4 +1,4 @@
-const Exam = require("./../models/exam");
+const Exam = require("../models/exam");
 
 async function createExam(req, res){
 
@@ -46,8 +46,7 @@ async function createExam(req, res){
 
   console.log("Added (1) exam to the DB!");
 
-  res.statusCode = 200;
-  res.send(exam._id);
+  res.send(exam);
 
 }
 

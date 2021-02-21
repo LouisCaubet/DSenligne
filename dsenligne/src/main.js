@@ -1,14 +1,17 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Dashboard from './components/dashboard';
-import Exam from './components/exam'
-import Login from './components/login'
 import {StaticMathField} from 'react-mathquill'
-import tblvariation from './components/tblvariation.jpg'
 import { BrowserRouter as Router, Redirect, Switch, Route } from 'react-router-dom';
 import Axios from 'axios'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Dashboard from './components/dashboard';
+import Exam from './components/exam'
+import Login from './components/login'
+import AdminPage from './admin/adminpage'
+
+import tblvariation from './components/tblvariation.jpg'
 import {API_PATH} from './index'
 
 
@@ -82,6 +85,17 @@ export default class Main extends React.Component {
                             <AppNavBar />
                             <Exam marginTop={this.state.navbarHeight} />
                         </Route>
+
+                        <Route path="/admin">
+                        
+                            {window.sessionStorage.getItem('interface') != "teacher" 
+                                && window.sessionStorage.getItem('interface') != "admin" &&
+                                <Redirect to="/dashboard" /> }
+
+                            <AdminPage />
+
+                        </Route>
+
                     </Switch>
         
                 </Router>

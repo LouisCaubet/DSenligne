@@ -1,9 +1,9 @@
-const Exam = require("../models/exam");
+const User = require("../models/users");
 const sanitize = require("mongo-sanitize");
 
 const mongoose = require("mongoose");
 
-async function getExamList(req, res){
+async function getUserList(req, res){
 
     const user = req.user;
     if(!user){
@@ -21,21 +21,20 @@ async function getExamList(req, res){
         const nb_ids = JSON.parse(sanitize(req.query.ids));
         const ids = nb_ids.map((i) => mongoose.Types.ObjectId(i));
         
-        if(user.isadmin){
-            let result = await Exam.find({
-                _id: { $in: ids }
-            });
-    
-            res.send(result);
+
+        let result = await User.find({
+            _id: { $in: ids }
+        });
+
+        for(let r of result){
+            r.password = undefined;
         }
-        else {
-            let result = await Exam.find({
-                _id: { $in: ids },
-                owner: user._id
-            });
-    
-            res.send(result);
-        }
+
+        // TODO : if user is not admin, remove all users that are not in one of the groups
+        //        user has control of.
+
+        res.send(result);
+        
         
 
     }
@@ -44,16 +43,17 @@ async function getExamList(req, res){
         const json = req.query;
         sanitize(json);
 
-        if(user.isadmin){
-            // Nothing particular for now
-        }
-        else if(user.isteacher){
-            json.filter.owner = user._id;
-        }
-
-        let result = await Exam.find(JSON.parse(json.filter)).sort([json.sort]);
+        let result = await User.find(JSON.parse(json.filter)).sort([json.sort]);
         const total = result.length;
         result = result.slice(json.range[0], json.range[1]);
+
+        for(let r of result){
+            r.password = undefined;
+        }
+
+        // TODO : if user is not admin, remove all users that are not in one of the groups
+        //        user has control of.
+
         res.status(200).send({
             data: result,
             total: total
@@ -65,4 +65,4 @@ async function getExamList(req, res){
 
 }
 
-module.exports = getExamList;
+module.exports = getUserList;

@@ -9,7 +9,7 @@ const ExamSchema = new mongoose.Schema({
 
     questions: {
         type: Object,
-        required: true,
+        default: [],
     },
 
     dueDate: {

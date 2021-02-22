@@ -62,8 +62,13 @@ async function getFilledExamList(req, res){
         }
 
         let result = await Exam.find(filter).sort(sort);
+        const total = result.length;
+
         result = result.slice(range[0], range[1]);
-        res.status(200).send(result);
+        res.status(200).send({
+            data: result,
+            total: total
+        });
 
     }
 

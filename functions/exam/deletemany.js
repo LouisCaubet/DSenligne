@@ -18,7 +18,8 @@ async function deleteExam(req, res){
     }
 
 
-    const nb_ids = JSON.parse(req.query.ids);
+    console.log(req.query.ids)
+    const nb_ids = req.query.ids;
 
     let ids = [];
     for(let i of nb_ids){

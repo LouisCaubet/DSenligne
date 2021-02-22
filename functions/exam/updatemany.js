@@ -24,8 +24,10 @@ async function updateMany(req, res){
     }
 
     let set = req.body;
-    set.isPublished = undefined;
-    set.owner = undefined;
+    
+    delete set.isPublished;
+    delete set.owner;
+    delete set._id;
 
     if(user.isadmin){
         await Exam.updateMany({

@@ -29,8 +29,6 @@ export default class Login extends React.Component {
     }
 
     submit(event){
-
-        console.log("submit called. Querying API...")
         
         const params = new URLSearchParams();
         params.append("username", this.state.username);
@@ -40,28 +38,32 @@ export default class Login extends React.Component {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
-        }
+        };
 
         Axios.post(API_PATH + "/login", params, config)
             .then((result) => {
 
-                    console.log("Query complete. Result:")
-                    console.log(result)
-
                     if(!result.data.success){
-                        this.setState({tryagain: true})
+                        this.setState({tryagain: true});
                     }
                     else {
 
-                        window.sessionStorage.setItem('username', result.data.username)
-                        window.sessionStorage.setItem('firstname', result.data.firstname)
-                        window.sessionStorage.setItem('lastname', result.data.lastname)
-                        window.sessionStorage.setItem('interface', result.data.interface)
+                        window.sessionStorage.setItem('username', result.data.username);
+                        window.sessionStorage.setItem('firstname', result.data.firstname);
+                        window.sessionStorage.setItem('lastname', result.data.lastname);
+                        window.sessionStorage.setItem('interface', result.data.interface);
 
-                        this.setState({redirect:true})
+                        if(result.data.interface == "teacher" || result.data.interface == "admin"){
+                            this.setState({redirect:<Redirect to="/admin" />});
+                        }
+                        else {
+                            this.setState({redirect:<Redirect to="/dashboard" />});
+                        }
+
+                        
                     }
                 }
-            )
+            );
 
 
         event.preventDefault();
@@ -73,11 +75,9 @@ export default class Login extends React.Component {
                                 <strong>Nom d&#39;utilisateur ou mot de passe incorrect!</strong>
                             </div>
 
-        const redirect = <Redirect to="/dashboard" />
-
         return  <Container fluid style={{overflow:"hidden"}}>
 
-                    {this.state.redirect && redirect}
+                    {this.state.redirect}
 
                     <div style={{
                         position: 'absolute', left: '50%', top: '50%',

@@ -8,8 +8,12 @@ export default {
     getList: async (resource, params) => {
 
         const { page, perPage } = params.pagination;
-        const { field, order } = params.sort;
+        let { field, order } = params.sort;
 
+        if(field == "id") field = "_id";
+
+        params.filter._id = params.filter.id;
+        params.filter.id = undefined;
 
         const res = await Axios.get(API_PATH + "/" + resource, {
             params: {
@@ -19,26 +23,52 @@ export default {
             }
         });
 
-        return { data: res.data };
+        for(let r of res.data.data){
+            if(resource == "exam") PatchExam(r);
+            if(resource == "user") PatchUser(r);
+        }
+
+        console.log(res.data);
+
+        return { data: res.data.data, total: res.data.total };
 
     },
 
     getOne: async (resource, params) => {
 
         const res = await Axios.get(API_PATH + "/" + resource + "/" + params.id);
+
+        if(resource == "exam") PatchExam(res.data);
+        if(resource == "user") PatchUser(res.data);
+
+        console.log(res.data)
+
         return { data: res.data };
 
     },
 
     getMany: async (resource, params) => {
 
+        console.log("GetMany called to resource: " + resource);
+        console.log(params);
+
         const res = await Axios.get(API_PATH + "/" + resource, {
             params: {
-                ids: params.ids
+                ids: JSON.stringify(params.ids)
             }
         });
 
-        return { data: res.data, total: res.data.length };
+        for (let r of res.data) {
+            if (resource == "exam")
+                PatchExam(r);
+            if (resource == "user")
+                PatchUser(r);
+        }
+
+        console.log({ data: res.data });
+        return { data: res.data };
+
+        
 
     },
 
@@ -54,6 +84,13 @@ export default {
                 filter: {...params.filter, [params.target]: params.id}
             }
         });
+
+        for(let r of res.data){
+            if(resource == "exam") PatchExam(r);
+            if(resource == "user") PatchUser(r);
+        }
+
+        console.log(res.data);
 
         return { data: res.data, total: res.data.length };
 
@@ -104,7 +141,7 @@ export default {
         });
 
         return {
-            data: { ...params.data, id: res._id }
+            data: { ...res.data, id: res.data._id }
         };
 
     },
@@ -138,4 +175,26 @@ export default {
 
     }
 
+}
+
+function PatchExam(r){
+
+    r.id = r._id;
+    r._id = undefined;
+
+    // let targetUsers = []
+    // for(let u of r.targetUsers){
+    //     targetUsers.push({id: u});
+    // }
+
+    // r.targetUsers = targetUsers;
+
+}
+
+function PatchUser(res){
+
+    res.id = res._id;
+    res._id = undefined;
+
+    res.displayname = res.firstname + " " + res.lastname;
 }

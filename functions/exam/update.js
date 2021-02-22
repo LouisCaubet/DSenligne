@@ -20,8 +20,10 @@ async function editExam(req, res){
     const id = mongoose.Types.ObjectId(req.params.id);
 
     let set = req.body;
-    set.isPublished = undefined;
-    set.owner = undefined;
+    
+    delete set.isPublished;
+    delete set.owner;
+    delete set._id;
 
 
     if(user.isadmin){

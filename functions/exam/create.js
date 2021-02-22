@@ -23,7 +23,7 @@ async function createExam(req, res){
   const description = arg.description || "";
   const duration = arg.duration;
 
-  if(!title || !questions || !dueDate || !duration){
+  if(!title || !dueDate || !duration){
     res.statusCode = 400;
     res.statusMessage = "Missing argument(s)";
     return;
@@ -42,11 +42,12 @@ async function createExam(req, res){
 
   console.log("Adding exam to the DB");
 
-  await exam.save();
+  exam.save(function(err, e){
+    console.log("Added (1) exam to the DB!");
+    console.log("Id: " + e._id);
+    res.send(e);
+  });
 
-  console.log("Added (1) exam to the DB!");
-
-  res.send(exam);
 
 }
 

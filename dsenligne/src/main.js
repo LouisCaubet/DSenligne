@@ -44,12 +44,31 @@ export default class Main extends React.Component {
     }
 
     componentDidMount(){
-        let height = document.getElementById('navbar').clientHeight;
-        this.setState({navbarHeight: height})
+
+        if(document.getElementById('navbar')){
+            let height = document.getElementById('navbar').clientHeight;
+            this.setState({navbarHeight: height})
+        }
+
     }
 
 
     render(){
+
+        if(!this.state.redirect){
+            if(window.sessionStorage.getItem('username') == ""){
+                this.setState({redirect: <Redirect to="/login" />});
+            }
+            else if(window.sessionStorage.getItem('interface') == "admin" || 
+                        window.sessionStorage.getItem('interface') == "teacher"){
+
+                this.setState({redirect: <Redirect to="/admin" />});
+
+            }
+            else {
+                this.setState({redirect: <Redirect to="/dashboard" />});
+            }
+        }
 
         let pageContent = <Exam 
         title = "Test de fiche semaine 1"
@@ -67,7 +86,6 @@ export default class Main extends React.Component {
         return  <Router>
 
                     {this.state.redirect}
-                    <Redirect to={window.sessionStorage.getItem('username') == "" ? "/login": "/dashboard"} />
 
                     <Switch>
                         <Route path="/login">
@@ -144,6 +162,19 @@ function AppNavBar(props){
 
 export function parseLatex(text){
 
+    let lines = text.split("\n");
+    let jsx_parts = []
+
+    for(let line of lines){
+        jsx_parts.push(parseLatexLine(line))
+    }
+
+    return <div>{jsx_parts}</div>
+
+}
+
+function parseLatexLine(text){
+
     let isLatex = text.charAt(0) == "$";
 
     text = text.replace("\\$", "*****ß"); // SPECIAL STRING
@@ -166,6 +197,6 @@ export function parseLatex(text){
         isLatex = !isLatex;
     }
 
-    return <span>{jsx_parts}</span>
+    return <p>{jsx_parts}</p>
 
 }

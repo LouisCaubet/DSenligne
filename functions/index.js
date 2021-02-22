@@ -89,6 +89,14 @@ app.get("/api/filledexam/:id", require("./filledexam/getone"));
 
 
 
+// GETLIST USER / GETMANY USER
+app.get("/api/user", require("./user/getlist"));
+
+// GETONE USER
+app.get("/api/user/:id", require("./user/getone"));
+
+
+
 // Create a new empty group
 app.post("/api/create-group", require("./requests/create-group"));
 

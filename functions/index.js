@@ -23,7 +23,7 @@ app.listen(port, () => {
 });
 
 // Connection to MongoDB
-const uri = "mongodb+srv://admin:CIb2xxSDNI8iIrmR@cluster0.xzps9.mongodb.net/dsenligne?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin:<password>@cluster0.xzps9.mongodb.net/dsenligne?retryWrites=true&w=majority";
 mongoose.connect(uri).then(() => console.log("Connection to MongoDB successful!")).catch((err) => console.log(err));
 
 

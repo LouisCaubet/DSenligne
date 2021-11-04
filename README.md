@@ -1,7 +1,9 @@
 # DS en ligne - Online Math Exam Website
 
-Personal project by Louis Caubet, 2021. Its purpose was to learn React.JS.
-Unfinished.
+Personal project by Louis Caubet, 2021. 
+
+Through this small project, I learned React.JS, Node and MongoDB.
+
 
 ## Concept
 

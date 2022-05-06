@@ -10,7 +10,7 @@
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
-    "immer": "^8.0.1",
+    "immer": "^9.0.12",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
@@ -21,7 +21,7 @@
     "react-helmet": "^6.1.0",
     "react-mathquill": "^1.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
+    "react-scripts": "^5.0.1",
     "react-serialize": "^0.2.0",
     "reactjs-popup": "^2.0.4",
     "web-vitals": "^0.2.4"
